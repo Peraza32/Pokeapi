@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useState, useEffect } from "react";
 
 import "./App.css";
@@ -58,11 +59,18 @@ function App() {
       console.error({error})
     }
   }
+=======
+
+import Pokedex from './components/pokedex/pokedex';
+
+function App() {
+>>>>>>> c8b4925366459eda4e748521fa589cfdb974c4c7
   return (
     <div className="w-full min-h-fullscreen flex flex-col bg-gray-200">
       <header className="w-full h-16 bg-gray-300 sticky top-0 left-0 flex justify-center items-center text-black font-oswald z-10"> National Pokedex </header>
 
       <main className="p-8 flex flex-col justify-center gap-8">
+<<<<<<< HEAD
         <Party party={party} onDeleteInParty = {onDeleteInPartyHandler}/>
 
         <Search onSubmit={onSearchHandler}/>
@@ -70,6 +78,10 @@ function App() {
         
         <Pokedex pokemons={pokemons} onAddToParty = {onAddToPartyHandler}/>
       </main>      
+=======
+        <Pokedex pokemons={pokemons} />
+      </main>
+>>>>>>> c8b4925366459eda4e748521fa589cfdb974c4c7
     </div>
   );
 }
