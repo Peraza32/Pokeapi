@@ -1,42 +1,38 @@
-import {
-    BASE_URL,
-    fetchAllPokemons,
-    fetchUrlPokemons,
-    transformPokemonData
-} from './helpers';
+import { BASE_URL, fetchAllPokemons, fetchUrlPokemons, transformPokemonData  } from "./helper";
 
-//object defined to export
-export const pokemonServices = {}
-
-//Traemos una lista de pokemons basandose en los filtros pasados por parametro
-getPokemons: async (filters = {}) => {
-    const { limit = 20, offset = 0 } = filters
+export const pokemonServices = {
+  getPokemons: async (filters = {}) => {
+    const { limit = 20, offset = 0} = filters
     try {
-        const urlPokemons = await fetchAllPokemons({ limit, offset });
-        const pokemons = await fetchUrlPokemons(urlPokemons);
+      const urlPokemons = await fetchAllPokemons({ limit, offset });
+      const pokemons = await fetchUrlPokemons(urlPokemons);
 
-        const mappedPokemons = pokemons.map(transformPokemonData);
-        return { success: true, pokemons: mappedPokemons };
+      const mappedPokemons = pokemons.map(transformPokemonData);
+
+      return { success: true, pokemons: mappedPokemons };
 
     } catch (error) {
-        console.log({ error });
-        return { success: false, pokemon: [] };
+      console.error({ error });
+      return { success: false, pokemons: [] };
     }
+  },
 
-}
+  getPokemon: async (name = "") => {
+    try{
+      const response = await fetch(`${BASE_URL}pokemon/${name}`)
+      const data = await response.json()
+      if(!data) throw new Error('Pokemon not found')
 
-//Traerá un pokemon en especifico, el cual indicaremos vía parametro el nombre.
-getPokemon: async (name = "") => {
-    try {
-        const response = await fetch(`${BASE_URL}pokemon/${name}`);
-        const data = await response.json();
-        if (!data) throw new Error("Pokemon not found");
+      const transformedPokemon = transformPokemonData(data)
+      
 
-        const transformPokemon = transformPokemonData(data);
-        return { success: true, pokemons: transformPokemon };
+      return { success: true, pokemon: transformedPokemon};
 
-    } catch (error) {
-        console.log({ error });
-        return { success: false, pokemon: null };
+    }catch(error){
+      console.error({ error });
+
+      return { success: false, pokemon: null };
     }
-}
+  }
+
+};
